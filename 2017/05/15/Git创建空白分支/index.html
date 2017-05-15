@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git创建空白分支 | lin</title>
+
+  
+  <meta name="author" content="lilg">
+  
+
+  
+  <meta name="description" content="有些情况下，想创建一个从头开始的git分支，例如使用hexo和gitub pages搭建博客，既想将hexo原文件托管在git，又想利用gitub pages。所以我们在xxxx.github.io使用两个分支，master用来发布gitub pages；另一个分支用来托管hexo原文件，两个分支版">
+  
+
+  
+  
+  <meta name="keywords" content="git">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Git创建空白分支"/>
+
+  <meta property="og:site_name" content="lin"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="lin" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">lin</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Git创建空白分支</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/05/15/Git创建空白分支/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-05-15T07:48:37.000Z">
+          2017-05-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>有些情况下，想创建一个从头开始的git分支，例如使用hexo和gitub pages搭建博客，既想将hexo原文件托管在git，又想利用gitub pages。所以我们在xxxx.github.io使用两个分支，master用来发布gitub pages；另一个分支用来托管hexo原文件，两个分支版本毫无关联。另一种场景就是代码重构，需要从头编写。</p>
+<ul>
+<li><p>下载原仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git@github.com:lilingang/lilingang.github.com.git</div><div class="line">$ cd lilingang.github.com</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建孤立分支hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout --orphan hexo</div></pre></td></tr></table></figure>
+<p>此时孤立分支在<code>git branch</code>是看不到的，首次commit之后才可以看到</p>
+</li>
+</ul>
+<ul>
+<li><p>清空分支内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git rm -rf .</div><div class="line">$ rm .gitignore</div></pre></td></tr></table></figure>
+</li>
+<li><p>添加新内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo &quot;empty branch&quot; &gt;&gt; README.txt</div></pre></td></tr></table></figure>
+</li>
+<li><p>提交推送</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git add .</div><div class="line">$ git commit -m &quot;init&quot; .</div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/git/">git</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 lilg
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
