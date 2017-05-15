@@ -85,9 +85,11 @@
 <li>安装有python</li>
 <li>一个外网可访问的web服务器，apache、nginx，端口必须是80。自己用node或python也可以创建一个简单容器（参考其他文档）</li>
 </ul>
-<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><p>先创建一个文件夹，用来放置生成过程中的各种文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir letsencrypt</div><div class="line">cd letsencrypt</div></pre></td></tr></table></figure></p>
-<ul>
-<li><strong>Stp 1：创建一个账户key</strong><br>&emsp;&emsp;如果以前使用过Let’s Encrypt，保留着<code>account.key</code>，<code>domain.key</code>，<code>domain.csr</code>，只是想刷新域名，请从“Step 3：获取签名证书”开始<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ openssl genrsa 4096 &gt; account.key</div></pre></td></tr></table></figure>
+<h2 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h2><ul>
+<li><p><strong>Stp 1：创建一个账户key</strong><br>&emsp;&emsp;先创建一个文件夹，用来放置生成过程中的各种文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir letsencrypt</div><div class="line">cd letsencrypt</div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果以前使用过Let’s Encrypt，保留着<code>account.key</code>，<code>domain.key</code>，<code>domain.csr</code>，只是想刷新域名，请从“Step 3：获取签名证书”开始</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ openssl genrsa 4096 &gt; account.key</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>&emsp;&emsp;账户key是用来让Let’s Encrypt识别你的身份的，在以后的刷新证书中需要，代表证书签约者身份</p>
