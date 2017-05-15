@@ -16,17 +16,16 @@ description:
  - 一个外网可访问的web服务器，apache、nginx，端口必须是80。自己用node或python也可以创建一个简单容器（参考其他文档）
 
 ## 获取证书
-先创建一个文件夹，用来放置生成过程中的各种文件
-```
-mkdir letsencrypt
-cd letsencrypt
-```
-
  - **Stp 1：创建一个账户key**
-&emsp;&emsp;如果以前使用过Let's Encrypt，保留着`account.key`，`domain.key`，`domain.csr`，只是想刷新域名，请从“Step 3：获取签名证书”开始
-```
-$ openssl genrsa 4096 > account.key
-```
+&emsp;&emsp;先创建一个文件夹，用来放置生成过程中的各种文件
+ ```
+ mkdir letsencrypt
+ cd letsencrypt
+ ```
+ &emsp;&emsp;如果以前使用过Let's Encrypt，保留着`account.key`，`domain.key`，`domain.csr`，只是想刷新域名，请从“Step 3：获取签名证书”开始
+ ```
+ $ openssl genrsa 4096 > account.key
+ ```
 &emsp;&emsp;账户key是用来让Let's Encrypt识别你的身份的，在以后的刷新证书中需要，代表证书签约者身份
 
 
