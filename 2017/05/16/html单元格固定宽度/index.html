@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>html单元格固定宽度 | glin</title>
+
+  
+  <meta name="author" content="lin">
+  
+
+  
+  <meta name="description" content="&amp;emsp;&amp;emsp;在页面展示表格的时候，尽可能的会使用固定表格宽度，否则在表格重渲染时(比如翻页)宽度可能发生变化。有时就算定义了宽度，默认的也会根据里面内容的来自动拉伸，造成其他列积压换行。
+&amp;emsp;&amp;emsp;通常的做法是：固定表格宽度，溢出内容以省略号代替
+表格固定布局1table&amp;">
+  
+
+  
+  
+  <meta name="keywords" content="html,css">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="html单元格固定宽度"/>
+
+  <meta property="og:site_name" content="glin"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="glin" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">glin</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>html单元格固定宽度</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/05/16/html单元格固定宽度/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-05-16T05:51:07.000Z">
+          2017-05-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>&emsp;&emsp;在页面展示表格的时候，尽可能的会使用固定表格宽度，否则在表格重渲染时(比如翻页)宽度可能发生变化。有时就算定义了宽度，默认的也会根据里面内容的来自动拉伸，造成其他列积压换行。</p>
+<p>&emsp;&emsp;通常的做法是：固定表格宽度，溢出内容以省略号代替</p>
+<h3 id="表格固定布局"><a href="#表格固定布局" class="headerlink" title="表格固定布局"></a>表格固定布局</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">table&#123;table-layout: fixed;word-break: break-all; word-wrap: break-word;&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>table-layout:fixed<br>&emsp;&emsp;列宽由表格宽度和列宽度设定。在固定表格布局中，水平布局仅取决于表格宽度、列宽度、表格边框宽度、单元格间距，而与单元格的内容无关。</p>
+</li>
+<li><p>word-break:break-all<br>&emsp;&emsp;word-break 属性规定自动换行的处理方法。break-all允许在单词内换行。</p>
+</li>
+<li><p>word-wrap: break-word<br>&emsp;&emsp;word-wrap 属性允许长单词或 URL 地址换行到下一行。break-word就表示在长单词或 URL 地址内部进行换行。</p>
+</li>
+</ul>
+<p>&emsp;&emsp;其实table-layout, word-break, word-wrap这三个属性都是关于固定宽度显示控制的。<br>对一般的浏览器来说，只需要其中一个就可以完成控制了，但是，一般我们还是会把三个属性都加上，这样以保证对所有的浏览器都兼容</p>
+<h3 id="溢出内容省略号"><a href="#溢出内容省略号" class="headerlink" title="溢出内容省略号"></a>溢出内容省略号</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.div_context&#123;-o-text-overflow:ellipsis;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width:100%;&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>overflow: hidden<br>&emsp;&emsp;溢出内容隐藏</p>
+</li>
+<li><p>white-space:nowrap<br>&emsp;&emsp;如何处理元素内的空白，nowrap是文本不会换行，文本会在在同一行上继续，直到遇到 <code>&lt;br&gt;</code> 标签为止，即该元素内部的文本夹杂着换行(空白符)也会在一行展示。</p>
+</li>
+<li><p>text-overflow:ellipsis<br>&emsp;&emsp;text-overflow 属性规定当文本溢出包含元素时发生的事情，ellipsis显示省略符号来代表被修剪的文本</p>
+</li>
+<li><p>-o-text-overflow:ellipsis<br>&emsp;&emsp;同上，Opera下的相同效果</p>
+</li>
+</ul>
+<h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>&emsp;&emsp;溢出内容省略号替代，需要预览完整信息，可以加上title属性，鼠标停放可展示完整信息（如果自己能开发相应插件就更好了，title提示无法复制，所以只能用在仅展示的场景下）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;</div><div class="line">    &lt;tr&gt;</div><div class="line">        &lt;th align=&quot;left&quot; width=&quot;100&quot;&gt;id&lt;/th&gt;</div><div class="line">        &lt;th align=&quot;left&quot; width=&quot;100&quot;&gt;name&lt;/th&gt;</div><div class="line">    &lt;/tr&gt;</div><div class="line">    &lt;tr&gt;</div><div class="line">        &lt;td align=&quot;left&quot;&gt;12345678&lt;/td&gt;</div><div class="line">        &lt;td align=&quot;left&quot;&gt;&lt;div title=&quot;表格宽度固定多处内容省略号展示&quot; class=&quot;award-name&quot;&gt;表格宽度固定多处内容省略号展示&lt;/div&gt;&lt;/td&gt;</div><div class="line">    &lt;/tr&gt;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/html/">html</a><a href="/tags/css/">css</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 lin
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
