@@ -1,12 +1,13 @@
 ---
 title: 使用acme-tiny获取Let's Encrypt免费HTTPS证书
 date: 2017-05-15 17:54:25
+categories:
 tags:
     - acme-tiny
     - Let's Encrypt
     - letsencrypt
     - https证书
-description:
+description: 在搭建owncloud私有云的时候，申请了一个免费ddns的二级域名，顺便做下https
 ---
 &emsp;&emsp;证书签发服务[Let's Encrypt](https://letsencrypt.org/)提供免费的https证书，但是证书有效期只有90天，因此获取证书后，每90天刷新，获取新证书，官方有提供工具，但是并不好用。第三方的工具也有一大把，个人认为最好用的就是[acme-tiny](https://github.com/diafygi/acme-tiny)，基于python，几百行的脚本就可以完成获取证书、刷新证书。
 
