@@ -7,8 +7,8 @@ duoshuo: false
 duoshuo_name:
 
 # disqus comment
-disqus: false
-disqus_shortname:
+disqus: true
+disqus_shortname: glan
 
 # google analytics
 googleTrackId:
