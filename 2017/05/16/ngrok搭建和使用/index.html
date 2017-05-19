@@ -1,87 +1,337 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="default">
 <head>
-  <meta charset="utf-8">
-  
-  <title>ngrok搭建和使用 | glin</title>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
-  <meta name="author" content="lin">
+  
+    
+  
+  <link href="//apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
   
 
   
-  <meta name="description" content="&amp;emsp;&amp;emsp;组了个NAS，之前宽带是有外网ip并且段口没有限制，可以很愉快的玩owncloud，以及openvpn到家做更多的事儿。换了个宽带只后虽然还有外网ip，但是并没什么用，端口都不通。所以就想起做个内网穿透，刚好有个梯子VPS（慢死，折腾什么劲）。&amp;emsp;&amp;emsp;其实内网">
+    
+    
   
 
   
-  
-  <meta name="keywords" content="ngrok,内网穿透">
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="ngrok搭建和使用"/>
-
-  <meta property="og:site_name" content="glin"/>
 
   
-  <meta property="og:image" content="/favicon.ico"/>
+
   
 
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="glin" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//cdn.staticfile.org/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ngrok,内网穿透," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;组了个NAS，之前宽带是有外网ip并且段口没有限制，可以很愉快的玩owncloud，以及openvpn到家做更多的事儿。换了个宽带只后虽然还有外网ip，但是并没什么用，端口都不通。所以就想起做个内网穿透，刚好有个梯子VPS（慢死，折腾什么劲）。&amp;emsp;&amp;emsp;其实内网穿透有很多方法  ssh隧道：不稳定易断 n2n：访问者需要客户端，或者需要其他工具在vps做一次内">
+<meta name="keywords" content="ngrok,内网穿透">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ngrok搭建和使用">
+<meta property="og:url" content="http://yoursite.com/2017/05/16/ngrok搭建和使用/index.html">
+<meta property="og:site_name" content="lilg&#39;s notes">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;组了个NAS，之前宽带是有外网ip并且段口没有限制，可以很愉快的玩owncloud，以及openvpn到家做更多的事儿。换了个宽带只后虽然还有外网ip，但是并没什么用，端口都不通。所以就想起做个内网穿透，刚好有个梯子VPS（慢死，折腾什么劲）。&amp;emsp;&amp;emsp;其实内网穿透有很多方法  ssh隧道：不稳定易断 n2n：访问者需要客户端，或者需要其他工具在vps做一次内">
+<meta property="og:updated_time" content="2017-05-19T02:51:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ngrok搭建和使用">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;组了个NAS，之前宽带是有外网ip并且段口没有限制，可以很愉快的玩owncloud，以及openvpn到家做更多的事儿。换了个宽带只后虽然还有外网ip，但是并没什么用，端口都不通。所以就想起做个内网穿透，刚好有个梯子VPS（慢死，折腾什么劲）。&amp;emsp;&amp;emsp;其实内网穿透有很多方法  ssh隧道：不稳定易断 n2n：访问者需要客户端，或者需要其他工具在vps做一次内">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/16/ngrok搭建和使用/"/>
+
+
+
+
+
+  <title>ngrok搭建和使用 | lilg's notes</title>
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
 
-<body>
-<div class="blog">
-  <div class="content">
+  
 
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">glin</a>
-    </h1>
-    <p class="site-description"></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lilg's notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
   </div>
-  <nav class="site-navigation">
-    <ul>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
       
-        <li><a href="/">主页</a></li>
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
       
-        <li><a href="/archives">归档</a></li>
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
       
     </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
-    
-    <h3 class="article-title"><span>ngrok搭建和使用</span></h3>
-    
   
 
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/05/16/ngrok搭建和使用/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-05-16T08:23:25.000Z">
-          2017-05-16
-        </time>
-      </a>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/16/ngrok搭建和使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lilg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
-  </div>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lilg's notes">
+    </span>
 
-  
+    
+      <header class="post-header">
 
-  <div class="article-content">
-    <div class="entry">
+        
+        
+          <h2 class="post-title" itemprop="name headline">ngrok搭建和使用</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-16T16:23:25+08:00">
+                2017-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/16/ngrok搭建和使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/16/ngrok搭建和使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p>&emsp;&emsp;组了个NAS，之前宽带是有外网ip并且段口没有限制，可以很愉快的玩owncloud，以及openvpn到家做更多的事儿。换了个宽带只后虽然还有外网ip，但是并没什么用，端口都不通。所以就想起做个内网穿透，刚好有个梯子VPS（慢死，折腾什么劲）。<br>&emsp;&emsp;其实内网穿透有很多方法</p>
 <ul>
@@ -95,35 +345,35 @@
 <p>&emsp;&emsp;如果已经使用apt安装了go，需要先卸载<code>apt-get remove golang</code></p>
 <ul>
 <li><p>下载解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz</div><div class="line">tar -C /usr/local -xzf go1.7.5.linux-amd64.tar.gz</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz</div><div class="line">tar -C /usr/<span class="built_in">local</span> -xzf go1.7.5.linux-amd64.tar.gz</div></pre></td></tr></table></figure>
 </li>
 <li><p>配置环境变量<br>编辑$HOME/.bash_profile 添加 <code>export PATH=$PATH:/usr/local/go/bin</code>，然后执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source $HOME/.bash_profile</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> <span class="variable">$HOME</span>/.bash_profile</div></pre></td></tr></table></figure>
 <p>验证是否安装成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go version</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go version</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="编译ngrok"><a href="#编译ngrok" class="headerlink" title="编译ngrok"></a>编译ngrok</h3><ul>
 <li><p>安装依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install build-essential mercurial git</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install build-essential mercurial git</div></pre></td></tr></table></figure>
 </li>
 <li><p>下载源码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/inconshreveable/ngrok.git ngrok</div><div class="line">cd ngrok</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/inconshreveable/ngrok.git ngrok</div><div class="line"><span class="built_in">cd</span> ngrok</div></pre></td></tr></table></figure>
 </li>
 <li><p>生成证书<br>&emsp;&emsp;需要注意的是此处的证书是ngrok上的，意思就是所有经ngrok转发的web使用该证书，无需在转发目标机器的nginx或apach上安装https证书。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">NGROK_DOMAIN=&quot;imququ.com&quot;</div><div class="line"></div><div class="line">openssl genrsa -out base.key 2048</div><div class="line">openssl req -new -x509 -nodes -key base.key -days 10000 -subj &quot;/CN=$NGROK_DOMAIN&quot; -out base.pem</div><div class="line">openssl genrsa -out server.key 2048</div><div class="line">openssl req -new -key server.key -subj &quot;/CN=$NGROK_DOMAIN&quot; -out server.csr</div><div class="line">openssl x509 -req -in server.csr -CA base.pem -CAkey base.key -CAcreateserial -days 10000 -out server.crt</div><div class="line"></div><div class="line">cp base.pem assets/client/tls/ngrokroot.crt</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">NGROK_DOMAIN=<span class="string">"imququ.com"</span></div><div class="line"></div><div class="line">openssl genrsa -out base.key 2048</div><div class="line">openssl req -new -x509 -nodes -key base.key -days 10000 -subj <span class="string">"/CN=<span class="variable">$NGROK_DOMAIN</span>"</span> -out base.pem</div><div class="line">openssl genrsa -out server.key 2048</div><div class="line">openssl req -new -key server.key -subj <span class="string">"/CN=<span class="variable">$NGROK_DOMAIN</span>"</span> -out server.csr</div><div class="line">openssl x509 -req -in server.csr -CA base.pem -CAkey base.key -CAcreateserial -days 10000 -out server.crt</div><div class="line"></div><div class="line">cp base.pem assets/client/tls/ngrokroot.crt</div></pre></td></tr></table></figure>
 <p>&emsp;&emsp;目前的ngrok版本只能使用x509，另一篇<a href="/2017/05/15/使用acme-tiny获取Let-s-Encrypt免费HTTPS证书/" title="使用Let's Encrypt">使用Let's Encrypt</a>的文章，其中使用的是sha256，不知道怎么统一，所以我将letsencrypt签好的https证书安装在转发目标机器，ngrok直接使用tcp转发，放弃ngrok中的http和https转发。</p>
 </li>
 <li><p>编译</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo make release-server release-client</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo make release-server release-client</div></pre></td></tr></table></figure>
 <p>ngrok/bin 目录下应该有 ngrok、ngrokd 两个可执行文件，则编译成功。<br>ngrokd是服务端程序，ngrok是客户端程序。</p>
 </li>
 </ul>
 <h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><ul>
 <li><p>服务端<br>指定域名、http端口，https端口，以及证书 启动服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=&quot;imququ.com&quot; -httpAddr=&quot;:8081&quot; -httpsAddr=&quot;:8082&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=<span class="string">"imququ.com"</span> -httpAddr=<span class="string">":8081"</span> -httpsAddr=<span class="string">":8082"</span></div></pre></td></tr></table></figure>
 <p>我不打算使用它的http和https，可以给空字符串以禁用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=&quot;imququ.com&quot; -httpAddr=&quot;&quot; -httpsAddr=&quot;&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=<span class="string">"imququ.com"</span> -httpAddr=<span class="string">""</span> -httpsAddr=<span class="string">""</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>客户端</p>
 <ol>
@@ -131,13 +381,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server_addr: imququ.com:4443</div><div class="line">trust_host_root_certs: false</div><div class="line">inspect_addr: 10.0.0.10:4040</div></pre></td></tr></table></figure>
 <p>其中的4443端口是服务端监听客户端接入的端口，可以在启动服务端的时候使用参数<br><code>-tunnelAddr=&quot;:xxx&quot;</code>更改。inspect_addr是监控界面地址，默认为127.0.0.1:4040，这样局域网内其他电脑无法访问只有自己可以访问(Debian系统没装xwindows)，所以可修改为局域网ip或者0.0.0.0。</p>
 <p>启动客户端</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#将服务器的http请求转发到本地80端口,即8081-&gt;80转发</div><div class="line">./ngrok -subdomain pub -proto=http -config=ngrok.cfg 80</div><div class="line">#将服务器的https请求转发到本地443端口，即8082-&gt;443转发</div><div class="line">./ngrok -subdomain pub -proto=https -config=ngrok.cfg 443</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#将服务器的http请求转发到本地80端口,即8081-&gt;80转发</span></div><div class="line">./ngrok -subdomain pub -proto=http -config=ngrok.cfg 80</div><div class="line"><span class="comment">#将服务器的https请求转发到本地443端口，即8082-&gt;443转发</span></div><div class="line">./ngrok -subdomain pub -proto=https -config=ngrok.cfg 443</div></pre></td></tr></table></figure>
 <p>这样就可以使用<a href="http://pub.imququ.com，https://pub.imququ.com" target="_blank" rel="external">http://pub.imququ.com，https://pub.imququ.com</a> 访问</p>
 </li>
 <li><p>使用tcp或其他<br>丰富一下配置文件<code>ngrok.cfg</code>，假设定义了两个tunnel</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">server_addr: imququ.com:4443</div><div class="line">trust_host_root_certs: false</div><div class="line">inspect_addr: 10.0.0.10:4040</div><div class="line">tunnels:</div><div class="line">    myapp:</div><div class="line">        remote_port: 8087</div><div class="line">        proto:</div><div class="line">            tcp: 80</div><div class="line">    openvpn:</div><div class="line">        remote_port: 1194</div><div class="line">        proto:</div><div class="line">            tcp: 1194</div></pre></td></tr></table></figure>
 <p>启动客户端</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#启动myapp，即将服务端8087转发到本地80</div><div class="line">./ngrok -config=ngrok.cfg start myapp</div><div class="line">#启动openvpn，即将服务端1194端口转发到本地1194</div><div class="line">./ngrok -config=ngrok.cfg start openvpn</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#启动myapp，即将服务端8087转发到本地80</span></div><div class="line">./ngrok -config=ngrok.cfg start myapp</div><div class="line"><span class="comment">#启动openvpn，即将服务端1194端口转发到本地1194</span></div><div class="line">./ngrok -config=ngrok.cfg start openvpn</div></pre></td></tr></table></figure>
 <p>支持tcp转发，可玩性比较高。</p>
 </li>
 </ol>
@@ -153,71 +403,387 @@
       
     </div>
 
-  </div>
+    <div>
+      
+        
 
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/ngrok/">ngrok</a><a href="/tags/内网穿透/">内网穿透</a>
-    </span>
-    
-
+      
     </div>
 
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ngrok/" rel="tag"># ngrok</a>
+          
+            <a href="/tags/内网穿透/" rel="tag"># 内网穿透</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/16/html单元格固定宽度/" rel="next" title="html单元格固定宽度">
+                <i class="fa fa-chevron-left"></i> html单元格固定宽度
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/18/finerepost外部传递参数/" rel="prev" title="finerepost外部传递参数">
+                finerepost外部传递参数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
-</article>
 
+
+        </div>
+        
+          
   
-	<section id="comments" class="comment">
-	  <div id="disqus_thread">
-	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	  </div>
-	</section>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
 
-	<script type="text/javascript">
-	var disqus_shortname = 'glan';
-	(function(){
-	  var dsq = document.createElement('script');
-	  dsq.type = 'text/javascript';
-	  dsq.async = true;
-	  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	}());
-	(function(){
-	  var dsq = document.createElement('script');
-	  dsq.type = 'text/javascript';
-	  dsq.async = true;
-	  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
-	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	}());
-	</script>
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="lilg" />
+          <p class="site-author-name" itemprop="name">lilg</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
 
 
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装GO"><span class="nav-number">2.</span> <span class="nav-text">安装GO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译ngrok"><span class="nav-number">3.</span> <span class="nav-text">编译ngrok</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">4.</span> <span class="nav-text">启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理界面"><span class="nav-number"></span> <span class="nav-text">管理界面</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
 
 
-
+        
+      </div>
     </main>
 
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2017 lin
-    
-  </p>
-</footer>
-    
-  </div>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lilg</span>
 </div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.staticfile.org/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.staticfile.org/velocity/1.2.1/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.staticfile.org/velocity/1.2.1/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//apps.bdimg.com/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://glan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/05/16/ngrok搭建和使用/';
+          this.page.identifier = '2017/05/16/ngrok搭建和使用/';
+          this.page.title = 'ngrok搭建和使用';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://glan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
