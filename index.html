@@ -333,46 +333,14 @@
 
       
         
-          
-            <p>&emsp;&emsp;在需要页面集成finereport时，多数时候参数需要从业务应用传递给报表系统，再由报表系统展示。finereport的参数传递本质上是用的自身的查询面板，该传递的参数在查询面板上都得有，只是在设计模版的时候将查询面板隐藏。</p>
-<h3 id="设计模版"><a href="#设计模版" class="headerlink" title="设计模版"></a>设计模版</h3><p> &emsp;&emsp;设置需要传递的参数，也就是设置模版里的参数面板。面板里的参数，最终是要体现在SQL上的，即finereport所谓的<a href="http://help.finereport.com/doc-view-106.html" target="_blank" rel="external">数据集</a>，因此先根据业务做好带参数的<a href="http://help.finereport.com/doc-view-196.html" target="_blank" rel="external">数据集</a>。</p>
-<ul>
-<li><p><strong>带参数的数据集</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> sys_depart <span class="keyword">where</span> depart_level <span class="keyword">in</span> ($&#123;depart_level&#125;)</div></pre></td></tr></table></figure>
-<p>假如数据集带有参数<code>depart_level</code></p>
-</li>
-<li><p><strong>设置参数面板</strong><br><img src="/2017/05/18/finerepost外部传递参数/1-1.png" alt="打开参数面板" title="打开参数面板">点开模版设计上部的笔头</p>
-<p><img src="/2017/05/18/finerepost外部传递参数/1-2.png" alt="设置参数面板" title="设置参数面板"><br>在右上角列出了数据集中的参数，给查询面板添加需要传递的参数<br>勾选掉“点击查询前不显示报表内容” -  <em>数据直接加载，不用点击自带的查询按钮</em><br>勾选掉“显示参数窗体”  - <em>隐藏自带的参数面板</em>（<a href="#install_plugin">没找到选项?</a>）</p>
-</li>
-</ul>
-<ul>
-<li><strong>图表展示</strong><br>点开内容区域的笔头，激活内容区域<br><img src="/2017/05/18/finerepost外部传递参数/1-3.png" alt="添加饼形图" title="添加饼形图"><br>例如饼形图分组是<code>depart_level</code></li>
-</ul>
-<h3 id="部署模版"><a href="#部署模版" class="headerlink" title="部署模版"></a>部署模版</h3><p> &emsp;&emsp;如果设计器直接连接报表服务器进行设计，保存模版即可。</p>
-<h3 id="应用开发"><a href="#应用开发" class="headerlink" title="应用开发"></a>应用开发</h3><ul>
-<li><p><strong>页面集成iframe</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">"page_form_form"</span> <span class="attr">id</span>=<span class="string">"query_form"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">target</span>=<span class="string">"reportFrame"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"departLevel"</span>&gt;</span>级别:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"departLevel"</span> <span class="attr">value</span>=<span class="string">"0"</span>&gt;</span>集团</div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"departLevel"</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span>省份</div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"departLevel"</span> <span class="attr">value</span>=<span class="string">"2"</span>&gt;</span>地市</div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"departLevel"</span> <span class="attr">value</span>=<span class="string">"3"</span>&gt;</span>地市以下</div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"reportFrame"</span> <span class="attr">name</span>=<span class="string">"reportFrame"</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">height</span>=<span class="string">"450px"</span> &gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>form内是需要传递的参数，与设计模版一致，页面加载到iframe</p>
-</li>
-<li><p><strong>拼接report请求链接</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"input:checkbox[name='departLevel']"</span>).on(<span class="string">"change"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">//获取参数</span></div><div class="line">    <span class="keyword">var</span> param = [];</div><div class="line">    $(<span class="string">"input:checkbox[name='departLevel']:checked"</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </div><div class="line">        param.push($(<span class="keyword">this</span>).val()); </div><div class="line">    &#125;); </div><div class="line">    <span class="comment">//拼接url</span></div><div class="line">    <span class="keyword">var</span> url = <span class="string">"http://ip:port/webapp/ReportServer?reportlet=depart.cpt&amp;op=view&amp;depart_level="</span>+param;</div><div class="line">    <span class="comment">//拼接出最终报表访问路径，并对完整的路径进行编码转换，防止乱码问题</span></div><div class="line">    $(<span class="string">"#reportFrame"</span>).attr(<span class="string">"src"</span>,cjkEncode(url));</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="string">"cjkEncode"</span>:<span class="function"><span class="keyword">function</span>(<span class="params">text</span>) </span>&#123;                                        </div><div class="line">      <span class="keyword">if</span> (text == <span class="literal">null</span>) &#123;         </div><div class="line">        <span class="keyword">return</span> <span class="string">""</span>;         </div><div class="line">      &#125;         </div><div class="line">      <span class="keyword">var</span> newText = <span class="string">""</span>;         </div><div class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; text.length; i++) &#123;         </div><div class="line">        <span class="keyword">var</span> code = text.charCodeAt (i);          </div><div class="line">        <span class="keyword">if</span> (code &gt;= <span class="number">128</span> || code == <span class="number">91</span> || code == <span class="number">93</span>) &#123;  <span class="comment">//91 is "[", 93 is "]".         </span></div><div class="line">          newText += <span class="string">"["</span> + code.toString(<span class="number">16</span>) + <span class="string">"]"</span>;         </div><div class="line">        &#125; <span class="keyword">else</span> &#123;         </div><div class="line">          newText += text.charAt(i);         </div><div class="line">        &#125;         </div><div class="line">      &#125;         </div><div class="line">    <span class="keyword">return</span> newText;         </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>报表界面会集成在iframe中展示<br><img src="/2017/05/18/finerepost外部传递参数/2-1.png" alt="参数传递展示" title="参数传递展示"><br>图表已接收到外部传入的参数</p>
-</li>
-</ul>
-<hr>
-<h3 id="附：安装“参数面板显示”兼容插件"><a href="#附：安装“参数面板显示”兼容插件" class="headerlink" title="附：安装“参数面板显示”兼容插件"></a>附：<span id="install_plugin">安装“参数面板显示”兼容插件</span></h3><p> &emsp;&emsp;默认情况下，参数面板是没有“参数面板显示”选项，没法隐藏面板，需要安装兼容插件。<a href="http://help.finereport.com/doc-view-1233.html" target="_blank" rel="external">参考地址</a>。<br> &emsp;&emsp;<img src="/2017/05/18/finerepost外部传递参数/x-1.png" alt="img"></p>
-<p> &emsp;&emsp;本地设计器即使连接的远程，本机仍需要安装插件，最好服务端和本机都安装插件。</p>
-<ul>
-<li><p><strong>设计器安装插件</strong><br>安装前将工作目录切换到本地，如果连接的服务器端，是没有安装插件的选项。<br><em><code>文件》切换工作目录》默认</code></em></p>
-<p>打开插件管理<br><em><code>服务器》插件管理</code></em></p>
-<p>选择上传文件安装，插件<em><a href="http://www.finereporthelp.com:8021/download/plugin/fr-plugin-showparameter-1.0.zip" target="_blank" rel="external">下载地址</a></em></p>
-</li>
-<li><p><strong>服务器安装插件</strong><br><em><code>进入数据决策系统》系统管理》插件管理</code></em></p>
-<p>选择文件安装</p>
-</li>
-</ul>
-
-          
+          <p>&emsp;&emsp;在需要页面集成finereport时，多数时候参数需要从业务应用传递给报表系统，再由报表系统展示。finereport的参数传递本质上是用的自身的查询面板，该传递的参数在查询面板上都得有，只是在设计模版的时候将查询面板隐藏。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/18/finerepost外部传递参数/" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -492,75 +460,20 @@
 
       
         
-          
-            <p>&emsp;&emsp;组了个NAS，之前宽带是有外网ip并且段口没有限制，可以很愉快的玩owncloud，以及openvpn到家做更多的事儿。换了个宽带只后虽然还有外网ip，但是并没什么用，端口都不通。所以就想起做个内网穿透，刚好有个梯子VPS（慢死，折腾什么劲）。<br>&emsp;&emsp;其实内网穿透有很多方法</p>
+          <p>&emsp;&emsp;组了个NAS，之前宽带是有外网ip并且段口没有限制，可以很愉快的玩owncloud，以及openvpn到家做更多的事儿。换了个宽带只后虽然还有外网ip，但是并没什么用，端口都不通。所以就想起做个内网穿透，刚好有个梯子VPS（慢死，折腾什么劲）。<br>&emsp;&emsp;其实内网穿透有很多方法</p>
 <ul>
 <li>ssh隧道：不稳定易断</li>
 <li>n2n：访问者需要客户端，或者需要其他工具在vps做一次内部端口转发（没用过）</li>
 <li>ngrok、frp等开发内网穿透工具</li>
 </ul>
 <p>&emsp;&emsp;这次选择ngrok。<br>&emsp;&emsp;ngrok服务端安装在有外网ip的机器上，访问者可以直接访问<br>&emsp;&emsp;ngrok客户端安装在nat后的机器上，这是应用服务的真正提供者。<br>&emsp;&emsp;访问者访问外网主机，外网主机只做请求转发，由内网主机真正提供服务。</p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>&emsp;&emsp;官方提供的服务是2+，开源的ngrok版本是1.7，并且需要自己编译<br>&emsp;&emsp;ngrok服务端是一台VPS，系统Debian<br>&emsp;&emsp;ngrok客户端是家里的台式机，系统Debian，只需要编译一次ngrok</p>
-<h3 id="安装GO"><a href="#安装GO" class="headerlink" title="安装GO"></a>安装GO</h3><p>&emsp;&emsp;使用apt安装的go是1.3版本，在编译中会出现错误，需要手动安装go1.7+，这里的安装过程是参考<a href="https://golang.org/doc/install" target="_blank" rel="external">GO官方文档</a>的</p>
-<p>&emsp;&emsp;如果已经使用apt安装了go，需要先卸载<code>apt-get remove golang</code></p>
-<ul>
-<li><p>下载解压</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz</div><div class="line">tar -C /usr/<span class="built_in">local</span> -xzf go1.7.5.linux-amd64.tar.gz</div></pre></td></tr></table></figure>
-</li>
-<li><p>配置环境变量<br>编辑$HOME/.bash_profile 添加 <code>export PATH=$PATH:/usr/local/go/bin</code>，然后执行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> <span class="variable">$HOME</span>/.bash_profile</div></pre></td></tr></table></figure>
-<p>验证是否安装成功</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go version</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="编译ngrok"><a href="#编译ngrok" class="headerlink" title="编译ngrok"></a>编译ngrok</h3><ul>
-<li><p>安装依赖</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install build-essential mercurial git</div></pre></td></tr></table></figure>
-</li>
-<li><p>下载源码</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/inconshreveable/ngrok.git ngrok</div><div class="line"><span class="built_in">cd</span> ngrok</div></pre></td></tr></table></figure>
-</li>
-<li><p>生成证书<br>&emsp;&emsp;需要注意的是此处的证书是ngrok上的，意思就是所有经ngrok转发的web使用该证书，无需在转发目标机器的nginx或apach上安装https证书。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">NGROK_DOMAIN=<span class="string">"imququ.com"</span></div><div class="line"></div><div class="line">openssl genrsa -out base.key 2048</div><div class="line">openssl req -new -x509 -nodes -key base.key -days 10000 -subj <span class="string">"/CN=<span class="variable">$NGROK_DOMAIN</span>"</span> -out base.pem</div><div class="line">openssl genrsa -out server.key 2048</div><div class="line">openssl req -new -key server.key -subj <span class="string">"/CN=<span class="variable">$NGROK_DOMAIN</span>"</span> -out server.csr</div><div class="line">openssl x509 -req -in server.csr -CA base.pem -CAkey base.key -CAcreateserial -days 10000 -out server.crt</div><div class="line"></div><div class="line">cp base.pem assets/client/tls/ngrokroot.crt</div></pre></td></tr></table></figure>
-<p>&emsp;&emsp;目前的ngrok版本只能使用x509，另一篇<a href="/2017/05/15/使用acme-tiny获取Let-s-Encrypt免费HTTPS证书/" title="使用Let's Encrypt">使用Let's Encrypt</a>的文章，其中使用的是sha256，不知道怎么统一，所以我将letsencrypt签好的https证书安装在转发目标机器，ngrok直接使用tcp转发，放弃ngrok中的http和https转发。</p>
-</li>
-<li><p>编译</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo make release-server release-client</div></pre></td></tr></table></figure>
-<p>ngrok/bin 目录下应该有 ngrok、ngrokd 两个可执行文件，则编译成功。<br>ngrokd是服务端程序，ngrok是客户端程序。</p>
-</li>
-</ul>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><ul>
-<li><p>服务端<br>指定域名、http端口，https端口，以及证书 启动服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=<span class="string">"imququ.com"</span> -httpAddr=<span class="string">":8081"</span> -httpsAddr=<span class="string">":8082"</span></div></pre></td></tr></table></figure>
-<p>我不打算使用它的http和https，可以给空字符串以禁用</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./bin/ngrokd -tlsKey=server.key -tlsCrt=server.crt -domain=<span class="string">"imququ.com"</span> -httpAddr=<span class="string">""</span> -httpsAddr=<span class="string">""</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>客户端</p>
-<ol>
-<li><p>使用http和https<br>写一个简单的配置文件<code>ngrok.cfg</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server_addr: imququ.com:4443</div><div class="line">trust_host_root_certs: false</div><div class="line">inspect_addr: 10.0.0.10:4040</div></pre></td></tr></table></figure>
-<p>其中的4443端口是服务端监听客户端接入的端口，可以在启动服务端的时候使用参数<br><code>-tunnelAddr=&quot;:xxx&quot;</code>更改。inspect_addr是监控界面地址，默认为127.0.0.1:4040，这样局域网内其他电脑无法访问只有自己可以访问(Debian系统没装xwindows)，所以可修改为局域网ip或者0.0.0.0。</p>
-<p>启动客户端</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#将服务器的http请求转发到本地80端口,即8081-&gt;80转发</span></div><div class="line">./ngrok -subdomain pub -proto=http -config=ngrok.cfg 80</div><div class="line"><span class="comment">#将服务器的https请求转发到本地443端口，即8082-&gt;443转发</span></div><div class="line">./ngrok -subdomain pub -proto=https -config=ngrok.cfg 443</div></pre></td></tr></table></figure>
-<p>这样就可以使用<a href="http://pub.imququ.com，https://pub.imququ.com" target="_blank" rel="external">http://pub.imququ.com，https://pub.imququ.com</a> 访问</p>
-</li>
-<li><p>使用tcp或其他<br>丰富一下配置文件<code>ngrok.cfg</code>，假设定义了两个tunnel</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">server_addr: imququ.com:4443</div><div class="line">trust_host_root_certs: false</div><div class="line">inspect_addr: 10.0.0.10:4040</div><div class="line">tunnels:</div><div class="line">    myapp:</div><div class="line">        remote_port: 8087</div><div class="line">        proto:</div><div class="line">            tcp: 80</div><div class="line">    openvpn:</div><div class="line">        remote_port: 1194</div><div class="line">        proto:</div><div class="line">            tcp: 1194</div></pre></td></tr></table></figure>
-<p>启动客户端</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#启动myapp，即将服务端8087转发到本地80</span></div><div class="line">./ngrok -config=ngrok.cfg start myapp</div><div class="line"><span class="comment">#启动openvpn，即将服务端1194端口转发到本地1194</span></div><div class="line">./ngrok -config=ngrok.cfg start openvpn</div></pre></td></tr></table></figure>
-<p>支持tcp转发，可玩性比较高。</p>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="管理界面"><a href="#管理界面" class="headerlink" title="管理界面"></a>管理界面</h2><p> &emsp;&emsp;ngrok客户端提供了一个web界面，可以用来监控http和https转发的详细信息，不能监控其他协议转发的内容，比如tcp。监控地址<a href="http://127.0.0.1:4040" target="_blank" rel="external">http://127.0.0.1:4040</a> ，地址可以修改，参考样例客户端配置文件ngrok.cfg</p>
-<hr>
-<p>最后，慢归慢，但是断了会自动重连，owncloud上传文件还可以接受，毕竟绕了一大圈。</p>
-<blockquote>
-<p>本文参考链接<a href="https://imququ.com/post/self-hosted-ngrokd.html" target="_blank" rel="external">https://imququ.com/post/self-hosted-ngrokd.html</a></p>
-</blockquote>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/16/ngrok搭建和使用/" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -680,36 +593,15 @@
 
       
         
-          
-            <p>&emsp;&emsp;在页面展示表格的时候，尽可能的会使用固定表格宽度，否则在表格重渲染时(比如翻页)宽度可能发生变化。有时就算定义了宽度，默认的也会根据里面内容的来自动拉伸，造成其他列积压换行。</p>
+          <p>&emsp;&emsp;在页面展示表格的时候，尽可能的会使用固定表格宽度，否则在表格重渲染时(比如翻页)宽度可能发生变化。有时就算定义了宽度，默认的也会根据里面内容的来自动拉伸，造成其他列积压换行。</p>
 <p>&emsp;&emsp;通常的做法是：固定表格宽度，溢出内容以省略号代替</p>
-<h3 id="表格固定布局"><a href="#表格固定布局" class="headerlink" title="表格固定布局"></a>表格固定布局</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">table</span>&#123;<span class="attribute">table-layout</span>: fixed;<span class="attribute">word-break</span>: break-all; <span class="attribute">word-wrap</span>: break-word;&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>table-layout:fixed<br>&emsp;&emsp;列宽由表格宽度和列宽度设定。在固定表格布局中，水平布局仅取决于表格宽度、列宽度、表格边框宽度、单元格间距，而与单元格的内容无关。</p>
-</li>
-<li><p>word-break:break-all<br>&emsp;&emsp;word-break 属性规定自动换行的处理方法。break-all允许在单词内换行。</p>
-</li>
-<li><p>word-wrap: break-word<br>&emsp;&emsp;word-wrap 属性允许长单词或 URL 地址换行到下一行。break-word就表示在长单词或 URL 地址内部进行换行。</p>
-</li>
-</ul>
-<p>&emsp;&emsp;其实table-layout, word-break, word-wrap这三个属性都是关于固定宽度显示控制的。<br>对一般的浏览器来说，只需要其中一个就可以完成控制了，但是，一般我们还是会把三个属性都加上，这样以保证对所有的浏览器都兼容</p>
-<h3 id="溢出内容省略号"><a href="#溢出内容省略号" class="headerlink" title="溢出内容省略号"></a>溢出内容省略号</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.div_context</span>&#123;<span class="attribute">-o-text-overflow</span>:ellipsis;<span class="attribute">text-overflow</span>:ellipsis;<span class="attribute">overflow</span>:hidden;<span class="attribute">white-space</span>:nowrap;<span class="attribute">width</span>:<span class="number">100%</span>;&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>overflow: hidden<br>&emsp;&emsp;溢出内容隐藏</p>
-</li>
-<li><p>white-space:nowrap<br>&emsp;&emsp;如何处理元素内的空白，nowrap是文本不会换行，文本会在在同一行上继续，直到遇到 <code>&lt;br&gt;</code> 标签为止，即该元素内部的文本夹杂着换行(空白符)也会在一行展示。</p>
-</li>
-<li><p>text-overflow:ellipsis<br>&emsp;&emsp;text-overflow 属性规定当文本溢出包含元素时发生的事情，ellipsis显示省略符号来代表被修剪的文本</p>
-</li>
-<li><p>-o-text-overflow:ellipsis<br>&emsp;&emsp;同上，Opera下的相同效果</p>
-</li>
-</ul>
-<h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>&emsp;&emsp;溢出内容省略号替代，需要预览完整信息，可以加上title属性，鼠标停放可展示完整信息（如果自己能开发相应插件就更好了，title提示无法复制，所以只能用在仅展示的场景下）<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">cellpadding</span>=<span class="string">"0"</span> <span class="attr">cellspacing</span>=<span class="string">"0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">th</span> <span class="attr">align</span>=<span class="string">"left"</span> <span class="attr">width</span>=<span class="string">"100"</span>&gt;</span>id<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">th</span> <span class="attr">align</span>=<span class="string">"left"</span> <span class="attr">width</span>=<span class="string">"100"</span>&gt;</span>name<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">align</span>=<span class="string">"left"</span>&gt;</span>12345678<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span> <span class="attr">align</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">title</span>=<span class="string">"表格宽度固定多处内容省略号展示"</span> <span class="attr">class</span>=<span class="string">"award-name"</span>&gt;</span>表格宽度固定多处内容省略号展示<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>本文参考链接<a href="http://www.cnblogs.com/sese/p/6118030.html" target="_blank" rel="external">http://www.cnblogs.com/sese/p/6118030.html</a></p>
-</blockquote>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/16/html单元格固定宽度/" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -829,10 +721,10 @@
 
       
         
-          在搭建owncloud私有云的时候，申请了一个免费ddns的二级域名，顺便做下https
+          <p>&emsp;&emsp;证书签发服务<a href="https://letsencrypt.org/" target="_blank" rel="external">Let’s Encrypt</a>提供免费的https证书，但是证书有效期只有90天，因此获取证书后，每90天刷新，获取新证书，官方有提供工具，但是并不好用。第三方的工具也有一大把，个人认为最好用的就是<a href="https://github.com/diafygi/acme-tiny" target="_blank" rel="external">acme-tiny</a>，基于python，几百行的脚本就可以完成获取证书、刷新证书。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/05/15/使用acme-tiny获取Let-s-Encrypt免费HTTPS证书/">
+            <a class="btn" href="/2017/05/15/使用acme-tiny获取Let-s-Encrypt免费HTTPS证书/" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -956,31 +848,14 @@
 
       
         
-          
-            <p>&emsp;&emsp;有些情况下，想创建一个从头开始的git分支，例如使用hexo和gitub pages搭建博客，既想将hexo原文件托管在git，又想利用gitub pages。所以我们在xxxx.github.io使用两个分支，master用来发布gitub pages；另一个分支用来托管hexo原文件，两个分支版本毫无关联。另一种场景就是代码重构，需要从头编写。</p>
-<ul>
-<li><p>下载原仓库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git@github.com:lilingang/lilingang.github.com.git</div><div class="line">$ <span class="built_in">cd</span> lilingang.github.com</div></pre></td></tr></table></figure>
-</li>
-<li><p>创建孤立分支hexo</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout --orphan hexo</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>&emsp;&emsp;此时孤立分支在<code>git branch</code>是看不到的，首次commit之后才可以看到</p>
-<ul>
-<li><p>清空分支内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git rm -rf .</div><div class="line">$ rm .gitignore</div></pre></td></tr></table></figure>
-</li>
-<li><p>添加新内容</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"empty branch"</span> &gt;&gt; README.txt</div></pre></td></tr></table></figure>
-</li>
-<li><p>提交推送</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git add .</div><div class="line">$ git commit -m <span class="string">"init"</span> .</div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>&emsp;&emsp;commit操作之后，你就可以用<code>git branch</code>命令看到新分支的名字了，然后push到远程仓库，在github页面上即可看到新分支</p>
-
-          
+          <p>&emsp;&emsp;有些情况下，想创建一个从头开始的git分支，例如使用hexo和gitub pages搭建博客，既想将hexo原文件托管在git，又想利用gitub pages。所以我们在xxxx.github.io使用两个分支，master用来发布gitub pages；另一个分支用来托管hexo原文件，两个分支版本毫无关联。另一种场景就是代码重构，需要从头编写。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/15/Git创建空白分支/" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
