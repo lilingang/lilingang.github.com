@@ -333,47 +333,14 @@
 
       
         
-          
-            <p>&emsp;&emsp;svn有move(mv)、copy(cp)、delete (del, remove, rm)命令，很多人并不常直接操作版本库，所以不了解这几个命令是可以直接在服务端版本库执行移动、复制和删除。</p>
-<p>先看看svn move的官方文档描述</p>
-<h1 id="官方描述"><a href="#官方描述" class="headerlink" title="官方描述"></a>官方描述</h1><blockquote>
-<h2 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h2><p>svn move (mv) — Move a file or directory.</p>
-<h2 id="Synopsis"><a href="#Synopsis" class="headerlink" title="Synopsis"></a>Synopsis</h2><p>svn move SRC… DST</p>
-<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>This command moves files or directories in your working copy or in the repository.</p>
-<blockquote>
-<p>This command is equivalent to an <code>svn copy</code> followed by <code>svn delete</code>. </p>
-</blockquote>
-<p>When moving multiple sources, they will be added as children of DST, which must be a directory.</p>
-<blockquote>
-<p>Subversion does not support moving between working copies and URLs. In addition, you can only move files within a single repository—Subversion does not support cross-repository moving. Subversion supports the following types of moves within a single repository:</p>
-</blockquote>
-<p>WC → WC<br>Move and schedule a file or directory for addition (with history).</p>
-<p>URL → URL<br>Complete server-side rename.</p>
-<h2 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h2><pre><code>--editor-cmd CMD
---encoding ENC
---file (-F) FILENAME
---force
---force-log
---message (-m) MESSAGE
---parents
---quiet (-q)
---revision (-r) REV
---with-revprop ARG
-</code></pre><h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><p>Move a file in your working copy:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ svn move foo.c bar.c</div><div class="line">A         bar.c</div><div class="line">D         foo.c</div></pre></td></tr></table></figure></p>
-<p>Move several files in your working copy into a subdirectory:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ svn move baz.c bat.c qux.c src</div><div class="line">A         src/baz.c</div><div class="line">D         baz.c</div><div class="line">A         src/bat.c</div><div class="line">D         bat.c</div><div class="line">A         src/qux.c</div><div class="line">D         qux.c</div></pre></td></tr></table></figure></p>
-<p>Move a file in the repository (this is an immediate commit, so it requires a commit message):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ svn move -m <span class="string">"Move a file"</span> http://svn.red-bean.com/repos/foo.c http://svn.red-bean.com/repos/bar.c</div><div class="line">Committed revision 27.</div></pre></td></tr></table></figure></p>
-</blockquote>
-<h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>可以看出 <code>svn 文件 文件</code> 是工作拷贝，<code>svn url url</code> 服务端拷贝<br>需要注意的是</p>
-<ol>
-<li>不支持在工作拷贝和URL之间拷贝</li>
-<li>只可以一个版本库内移动</li>
-</ol>
-<h1 id="服务端操作示例"><a href="#服务端操作示例" class="headerlink" title="服务端操作示例"></a>服务端操作示例</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn copy -m <span class="string">"new tag"</span> svn://ip:port/pd_code/Trunk/sys-frame svn://ip:port/pd_code/Tags/sys-frame</div></pre></td></tr></table></figure>
-<p>从Trunk拷贝一份创建Tag</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">svn mv -m <span class="string">"new tag"</span> svn://ip:port/pd_code/Trunk/sys-frame svn://ip:port/pd_code/Trunk/sys-project</div></pre></td></tr></table></figure>
-<p>重新命名工程</p>
-
-          
+          <p>&emsp;&emsp;svn有move(mv)、copy(cp)、delete (del, remove, rm)命令，很多人并不常直接操作版本库，所以不了解这几个命令是可以直接在服务端版本库执行移动、复制和删除。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/22/svn服务端移动和复制/" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
